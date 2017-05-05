@@ -1,0 +1,208 @@
+<?php
+
+class GameController {
+
+    var $imagesCollection;
+    var $nbLevels;
+    var $nbShelves;
+
+
+    public function getImagesAction(Request $request) {
+        //if($request->isXmlHttpRequest()) {
+        //    
+        //}
+        
+        if(is_null($request->query->get('nbShelves')) || is_null($request->query->get('nbLevels'))){
+            die("Variables not defined");
+        }
+        
+        $this->nbShelves = $request->query->get('nbShelves');
+        $this->nbLevels = $request->query->get('nbLevels');
+
+        $this->setImages();
+        $this->setItemsHTMLClasses();
+
+
+        $response = new Response(json_encode($this->imagesCollection));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        return $response;
+    }
+
+    //Return void
+    private function setImages() {
+        $images = array(
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/apple.png",
+                "win_level" => [1, 2]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/baguette.png",
+                "win_level" => [1]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/bananas.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/boloni.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/carrot.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/cheese.png",
+                "win_level" => [1, 2]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/cucumber.png",
+                "win_level" => [1]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/eggplant.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/eggs.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/lemon.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/lettuce.png",
+                "win_level" => [1, 2]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/loaf_of_bread.png",
+                "win_level" => [1]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/milk.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/orange.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/orange_juice.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/packets.png",
+                "win_level" => [1, 2]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/peanut_butter.png",
+                "win_level" => [1]
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/salsa.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/spam.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato_juice.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato_sauce.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/tuna.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/wieners.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "http://localhost/gamecanvas/public_html/web/items/yogurt.png",
+                "win_level" => []
+            )
+        );
+
+        $this->imagesCollection = $images;
+    }
+
+    /*
+     * Organise items on the shelves, depends on how many shelves do we have and how many images
+     * return Array
+     */
+
+    private function itemsOnShelves() {
+        $images = $this->imagesCollection;
+        $totalItems = count($images);
+        $index = 0;
+        for ($row = 1; $row <= $this->nbShelves; $row++) {
+            $shelves[$row] = array();
+            for ($items = 0; $items < round($totalItems / $this->nbShelves); $items++) {
+                if (isset($images[$index])) {
+                    array_push($shelves[$row], $images[$index]);
+                    unset($images[$index]);
+                }
+                $index++;
+            }
+        }
+        return($shelves);
+    }
+
+    /*
+     * Return void
+     * Set classes and ids element allowing js to generate the HTML
+     */
+
+    private function setItemsHTMLClasses() {
+        $listItems = $this->itemsOnShelves();
+        $tempArray = array();
+        foreach ($listItems as $key => $shelves) {
+            $element = "#shelve" . $key;
+            $class = "websaver_shelve" . $key;
+            for ($i = 0; $i < count($shelves); $i++) {
+                array_push($tempArray, array(
+                    "src" => $shelves[$i]["src"],
+                    "class" => $class,
+                    "element" => $element,
+                    "level" => $shelves[$i]["win_level"]
+                ));
+            }
+        }
+
+        $this->setItemsWinLevel($tempArray);
+    }
+
+    /*
+     * Set html class "gotya" to find each images users should click to win on every levels
+     */
+
+    private function setItemsWinLevel($tempArray) {
+        for ($l = 1; $l <= $this->nbLevels; $l++) {
+            $levelsArray[$l] = array();
+            $t = array();
+            foreach ($tempArray as $images) {
+                //If the images should be clicked in this level
+                if (in_array($l, $images["level"])) {
+                    $images["class"] = $images["class"] . " gotya";
+                }
+                array_push($t, $images);
+            }
+            $levelsArray[$l] = $t;
+        }
+
+        $this->imagesCollection = $levelsArray;
+    }
+
+}
+

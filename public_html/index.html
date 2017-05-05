@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Websaver game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+        <script src='game.js'></script>
+        <style>
+            #shelve1, #shelve2, #shelve3, #shelve4 {
+                height:35px;
+                width:100%;
+                overflow:hidden;
+                width: 660px;
+            }
+
+            .websaver_shelve1, .websaver_shelve2, .websaver_shelve3,.websaver_shelve4 {
+                height:150px;
+                float:left;
+                padding-right: 15px;
+            }
+
+            #game{
+                background-image: url(web/shelves.png);
+                background-repeat: no-repeat;
+                height: 250px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id ='game-title'></div>
+        <div id='game-timer'></div>
+        <div id='game-score'>0</div>
+        <div id='game-lives'>3</div>
+        <div id='game'>
+            <div style='padding-top: 50px;'>
+                <div id='shelve1'>
+                    <div id="shelve1-container"></div>
+                </div>
+                <div id='shelve2'>
+                    <div id="shelve2-container"></div>
+                </div>
+                <div id='shelve3'>
+                    <div id="shelve3-container"></div>
+                </div>
+                <div id='shelve4'>
+                    <div id="shelve4-container"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
