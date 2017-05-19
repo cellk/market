@@ -9,50 +9,67 @@ and open the template in the editor.
         <title>Websaver game</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
-        <script src='game.js'></script>
-        <style>
-            #shelve1, #shelve2, #shelve3, #shelve4 {
-                height:35px;
-                width:100%;
-                overflow:hidden;
-                width: 660px;
-            }
-
-            .websaver_shelve1, .websaver_shelve2, .websaver_shelve3,.websaver_shelve4 {
-                height:150px;
-                float:left;
-                padding-right: 15px;
-            }
-
-            #game{
-                background-image: url(web/shelves.png);
-                background-repeat: no-repeat;
-                height: 250px;
-                text-align: center;
-            }
-        </style>
+        <script src="jquery-1.10.2.min.js" crossorigin="anonymous"></script>
+    <script src="jquery.cookie.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src='game.js'></script>
+    <link rel="stylesheet" href="game.css" />
     </head>
     <body>
-        <div id ='game-title'></div>
-        <div id='game-timer'></div>
-        <div id='game-score'>0</div>
-        <div id='game-lives'>3</div>
-        <div id='game'>
-            <div style='padding-top: 50px;'>
-                <div id='shelve1'>
-                    <div id="shelve1-container"></div>
+    <div id="contest-wrapper">          
+        <div id="canvas" class="content" style="min-height: 500px;">
+
+            <div id='game'>
+                <div id='game-timer'>
+                    <div class='clock'>
+                        <div class="pie degree">
+                            <span class="block"></span>
+                            <span id="time">0</span>
+                            <div class="minutes"></div>
+                            <div class="seconds"></div>
+                        </div>
+                    </div>
                 </div>
-                <div id='shelve2'>
-                    <div id="shelve2-container"></div>
+                <div id='game-score-parent'>
+                    <span style="color: #565456;">Your score</span>
+                    <br/>
+                    <span id="game-score" style="font-size: 35px;">0</span>
                 </div>
-                <div id='shelve3'>
-                    <div id="shelve3-container"></div>
+
+                <div id='game-lives-parent'>
+                    <img id="live_3" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/last_life.png')}}"/>
+                    <img id="live_2" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/second_life.png')}}"/>
+                    <img id="live_1" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/first_life.png')}}"/>
+                    <span id="game-lives" class="superpose">3</span>
                 </div>
-                <div id='shelve4'>
-                    <div id="shelve4-container"></div>
+                <div id="game-list-items">
+                    <div id="game-level">Level: <span id="game-level-number" style="color: #6FB440;">1</span></div>
+                    <ul class="split-list"></ul>
                 </div>
+
+                <div id='game-playBtn'></div>
+                <img id='game-basket' class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/basket.png')}}"/>
+
+                <span id='game-notify'></span>
+                <div id="shelves">
+                    <div id='shelve1'>
+                        <div id="shelve1-container"></div>
+                    </div>
+                    <div id='shelve2'>
+                        <div id="shelve2-container"></div>
+                    </div>
+                    <div id='shelve3'>
+                        <div id="shelve3-container"></div>
+                    </div>
+                    <div id='shelve4'>
+                        <div id="shelve4-container"></div>
+                    </div>
+                </div>
+                <input id='tk' style="display: none"/>
             </div>
+            <div style="width: 100%;height: 35px; background-color: white;position: relative; z-index: 10000"></div>
         </div>
+    </div>
     </body>
 </html>
