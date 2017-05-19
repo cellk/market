@@ -1,29 +1,35 @@
-<?php
-
-class GameController {
+class GameController extends Controller {
 
     var $imagesCollection;
     var $nbLevels;
     var $nbShelves;
 
+    public function indexAction() {
+        return $this->render('BAMWebsaverBundle:Contests\Contest:game.html.twig');
+    }
 
-    public function getImagesAction(Request $request) {
-        //if($request->isXmlHttpRequest()) {
-        //    
-        //}
-        
-        if(is_null($request->query->get('nbShelves')) || is_null($request->query->get('nbLevels'))){
-            die("Variables not defined");
+    public function ajaxAction(Request $request) {
+        if ($request->isMethod('POST')) {
+            $score = $request->request->get('score');
+            $levelAchieved = $request->request->get('levelAchieved');
+            $token = $request->request->get('token');
+            $db = $this->dbGameOver($token, $score, $levelAchieved);
+            $response = new Response(json_encode($db));
+        } else {
+            if (is_null($request->query->get('nbShelves')) || is_null($request->query->get('nbLevels'))) {
+                die("Variables not defined");
+            }
+
+            //$token = $this->dbGameStart();
+            $token = "";
+            $this->nbShelves = $request->query->get('nbShelves');
+            $this->nbLevels = $request->query->get('nbLevels');
+
+            $this->setItemsHTMLClasses();
+            $response = new Response(json_encode(array("img" => $this->imagesCollection, "tk" => $token)));
         }
-        
-        $this->nbShelves = $request->query->get('nbShelves');
-        $this->nbLevels = $request->query->get('nbLevels');
-
-        $this->setImages();
-        $this->setItemsHTMLClasses();
 
 
-        $response = new Response(json_encode($this->imagesCollection));
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
         return $response;
@@ -33,103 +39,224 @@ class GameController {
     private function setImages() {
         $images = array(
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/apple.png",
+                "src" => "bananas.png",
                 "win_level" => [1, 2]
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/baguette.png",
-                "win_level" => [1]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/bananas.png",
+                "src" => "bell_pepper.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/boloni.png",
+                "src" => "bokchoy.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/carrot.png",
+                "src" => "boloni.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/cheese.png",
-                "win_level" => [1, 2]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/cucumber.png",
-                "win_level" => [1]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/eggplant.png",
+                "src" => "bread.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/eggs.png",
+                "src" => "brie.png",
+                "win_level" => [2]
+            ),
+            array(
+                "src" => "brocoli.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/lemon.png",
+                "src" => "cans.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/lettuce.png",
-                "win_level" => [1, 2]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/loaf_of_bread.png",
-                "win_level" => [1]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/milk.png",
+                "src" => "carrot.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/orange.png",
+                "src" => "celeri.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/orange_juice.png",
+                "src" => "cheese.png",
+                "win_level" => [2]
+            ),
+            array(
+                "src" => "cherries.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/packets.png",
-                "win_level" => [1, 2]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/peanut_butter.png",
-                "win_level" => [1]
-            ),
-            array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/salsa.png",
+                "src" => "chicken.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/spam.png",
+                "src" => "chips.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato.png",
+                "src" => "chocolate.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato_juice.png",
+                "src" => "coconut.png",
+                "win_level" => [2]
+            ),
+            array(
+                "src" => "corn.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/tomato_sauce.png",
+                "src" => "cucumber.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/tuna.png",
+                "src" => "donut.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/wieners.png",
+                "src" => "eggplant.png",
                 "win_level" => []
             ),
             array(
-                "src" => "http://localhost/gamecanvas/public_html/web/items/yogurt.png",
+                "src" => "eggs.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "fish.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "fudgesicle.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "grapes.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "green_apple.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "jam.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "kiwi.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "lemon.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "lettuce.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "milk.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "mushroom.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "onion.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "orange.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "orange_juice.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "packets.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "peanut_butter.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "pear.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "peas.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "pepper.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "pineapple.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "plum.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "potato.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "pumpkin.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "radish.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "red_apple.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "salsa.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "sauce.png",
+                "win_level" => []
+            )
+            ,
+            array(
+                "src" => "steak.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "strawberry.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "tomato.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "tuna.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "watermelon.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "wieners.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "wine.png",
+                "win_level" => []
+            ),
+            array(
+                "src" => "yogurt.png",
                 "win_level" => []
             )
         );
@@ -165,6 +292,7 @@ class GameController {
      */
 
     private function setItemsHTMLClasses() {
+        $this->setImages();
         $listItems = $this->itemsOnShelves();
         $tempArray = array();
         foreach ($listItems as $key => $shelves) {
@@ -204,5 +332,40 @@ class GameController {
         $this->imagesCollection = $levelsArray;
     }
 
-}
+    /*
+     * @todo : shuffling the array on each shelve per level
+     */
 
+    private function shuffleArray() {}
+
+    private function dbGameOver($token, $score, $levelAchieved) {
+        $em = $this->getDoctrine()->getManager();
+        $game = $em->getRepository('BAMWebsaverBundle:WsGameContest')->findOneBy(array("token" => $token, "updated" => 0));
+        if (!$game) {
+            return FALSE;
+        }
+
+        $game->setDate();
+        $game->setScore((int) $score);
+        $game->setLevelachieved((int) $levelAchieved);
+        $game->setUpdated(1);
+        $em->flush();
+        return TRUE;
+    }
+
+    private function dbGameStart() {
+        $token = bin2hex(random_bytes(20));
+        $game = new WsGameContest();
+        $game->setScore(0);
+        $game->setDate();
+        $game->setLevelachieved(0);
+        $game->setToken($token);
+        $game->setUpdated(0);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($game);
+        $em->flush();
+        return $token;
+    }
+
+}
