@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Websaver game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="jquery-1.10.2.min.js" crossorigin="anonymous"></script>
+    <script src="jquery.cookie.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src='game.js'></script>
+    <link rel="stylesheet" href="game.css" />
+    </head>
+    <body>
+    <div id="contest-wrapper">	
+        <div id="mobile-canvas" class="container">	
+            <div id="game-portrait">
+                <div class="col-xs-12 bg-game">
+                    <div id="game-lockup">
+                        <img src='{{asset('bundles/bamwebsaver/images/items/others/')}}{{'lockup-image' | trans({}, 'contests_login') | raw}}'/>
+                        <div class="lockup-title">{{'checkout-title' | trans({}, 'contests_login') | raw}}</div>
+                    </div>
+                    <div id="game-store" class="reset-line-height">
+                        <img class="flip-phone-img" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/flip_your_phone.png')}}"/>
+                        <img style="height: 300px;margin-top: 16px;width: 100%;" src='{{asset('bundles/bamwebsaver/images/items/others/store.png')}}'/>
+                    </div>
+                    <div class="col-xs-12" style="padding-left: 12px;padding-right: 12px;">
+                        <p class="text-rules-portrait"> {{'bottom_claimer' | trans({'%link_start%' : '<a href="'~path('_contests_official_rules')~'">', '%link_end%' : '</a>'}, 'footer') | raw}}</p>  
+                    </div>
+                </div>
+            </div>
+            <div id="ws-landing" class="hide-portrait">           
+                <div class="row">  
+                    <div class="col-xs-12 bg-game-checkout">
+                        <div id="game-lockup">
+                            <img src='{{asset('bundles/bamwebsaver/images/items/others/')}}{{'lockup-image' | trans({}, 'contests_login') | raw}}'/>
+                            <div class="lockup-title">{{'checkout-title' | trans({}, 'contests_login') | raw}}</div>
+                        </div>
+
+                        <div style="margin-top: 65px;">
+                            <div id="gameover-paper">
+                                <div id="gameover-paper-content">
+                                    
+                                    <div style="padding: 5px 0;">{{'checkout-score' | trans({}, 'contests_login') | raw}} <span style="font-size: 20px;color:#62A709" class="timer">{{ score }}</span></div>
+                                    <div style="">
+                                        {{'checkout-text-page' | trans({}, 'contests_login') | raw}}
+                                        
+                                    </div>
+                                    <div style="padding: 5px 0;font-family: riffic-bold; font-size: 15px;color:#004E8A">
+                                        {{'checkout-share' | trans({}, 'contests_login') | raw}}
+                                        <img id="fb-share" style="padding: 0 5px; cursor: pointer;" src='{{asset('bundles/bamwebsaver/images/items/others/fb.png')}}'/> 
+                                        <a style="display: inline-block!important;" href="https://twitter.com/intent/tweet?url={{app.request.uri|url_encode }}" target="_blank">
+                                            <img id="tw-share" style="cursor: pointer;" src='{{asset('bundles/bamwebsaver/images/items/others/tw.png')}}'/>
+                                        </a>
+                                    </div>
+                                    <div style=""><a href="{{path('_contests_game_winners')}}"><h4>{{'checkout-top' | trans({}, 'contests_login') | raw}}</h4></a></div>
+                                </div>
+                                <img id="checkout-paper" src='{{asset('bundles/bamwebsaver/images/items/others/paper.png')}}'/>
+                            </div>
+                            <div id="gameover-cashier">
+                                <img id="cashier-size" src='{{asset('bundles/bamwebsaver/images/items/others/cashier.png')}}'/>
+                                <div id="gameover-cashier-score"><span class="timer">{{ score }}</span> <span style='font-size:8px'>pts</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="game-over-separator" style="width: 100%;height: 42px; background-color: #EDEEF0;position: relative; z-index: 1000;"></div>
+                <audio id="audio_cash" type="audio/x-wav" preload="auto" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/audio/score_count_audio.wav')}}"></audio>
+
+                <div class="row text-center disclaimer" style="padding-top: 0;margin-top: 0;">  
+                    <div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">      
+                        <p> {{'bottom_claimer' | trans({'%link_start%' : '<a href="'~path('_contests_official_rules')~'">', '%link_end%' : '</a>'}, 'footer') | raw}}</p>                                 
+                    </div>
+                </div>
+
+                <pre>
+                    {#                    {{ dump(data) }}#}
+                </pre>
+
+
+            </div>    
+        </div>
+        <script src="{{asset('bundles/bamwebsaver/js/jquery.assets.js')}}"></script>
+        <script>
+            $("#fb-share").click(function () {
+                console.log('ici')
+                FB.init({
+                    appId: '197140640414527',
+                    xfbml: true,
+                    version: 'v2.9'
+                });
+                FB.ui({
+                    method: 'share_open_graph',
+                    action_type: 'og.shares',
+                    action_properties: JSON.stringify({
+                        object: {
+                            'og:url': document.URL, // your url to share
+                            'og:title': 'The webSaver.ca Supermarket Run contest',
+                            'og:description': 'I just scored {{ score }} points playing Supermarket Run for a chance to win a $100 grocery gift card! I challenge YOU to beat my score. Log-in with your webSaver.ca account Or register to webSaver.ca & play for a chance to win a $100 grocery gift card*. *Please see official rules for full store listings',
+                            'og:image': '{{app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/image_fb_share.jpg')}}'
+                        }
+                    })
+                }
+                , function (response) {}
+                );
+            });
+
+            $(document).ready(function () {
+                var audio = document.getElementById('audio_cash');
+                audio.onloadedmetadata = function () {
+                    audio.play();
+                    $('.timer').countTo({
+                        from: 0,
+                        to: {{ score }},
+                        speed: 1000,
+                        refreshInterval: 50,
+                        onComplete: function (value) {
+                            console.debug(this);
+                        }
+                    });
+                };
+
+
+                $("#fb-share,#tw-share").jrumble({
+                    x: 0,
+                    y: 0,
+                    rotation: 5,
+                    speed: 200
+                });
+                $("#fb-share,#tw-share").hover(function () {
+                    $(this).trigger('startRumble');
+                }, function () {
+                    $(this).trigger('stopRumble');
+                });
+            });
+        </script>
+    </div>  
+    </body>
+</html>

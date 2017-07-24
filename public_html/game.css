@@ -7,29 +7,98 @@ and open the template in the editor.
     Created on : May 18, 2017, 11:20:01 AM
     Author     : kenny.tchu
 */
+@font-face {
+    font-family: 'breelight';
+    src: url('../fonts/breelight.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'riffic-bold';
+    src: url('../fonts/riffic-bold-webfont.woff2') format('woff2'),
+        url('../fonts/riffic-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body{
+    font-family: "bree"!important;
+}
+
+.wrapper{
+    background: url("../images/items/others/bg_screen.png") no-repeat top;
+}
+
+#login-newMember{
+    padding-top: 10%;
+}
+
+#game-portrait{
+    display: none;
+}
+
+.audio-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.audio-inactive{
+    display: none;
+}
+
+
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.game-wrapper{
+    min-height: 550px;
+    background-color: #EDEEF0!important;
+    padding: 0!important;
+    width: 760px;
+    border-radius: 0 0 1em 1em;
+    color: #082e7d;
+    height: auto;
+    margin: 0 auto 4em;
+    position: relative;
+    border-radius: 0 0 1em 1em;
+    box-shadow: 0 0 2em #8289a1;
+}
 
 #shelves{
-    position: absolute;
-    top: 65px;
-    right: 24px;
+    position: relative;
+    bottom: 205px;
 }
 
 #shelve1, #shelve2, #shelve3, #shelve4 {
-    height:20px;
+    height:40px;
     width:100%;
     overflow:hidden;
     width: 550px;
-    padding-bottom: 48px;
     float: right;
 }
 
-.websaver_shelve1, .websaver_shelve2, .websaver_shelve3,.websaver_shelve4 {
-    height:150px;
+#shelve2,#shelve3,#shelve4{
+    margin-top: 10px;
+}
+
+.websaver_shelve1, .websaver_shelve2,.websaver_shelve3,.websaver_shelve4 {
+    height:40px;
     float:left;
     padding-right: 15px;
     cursor: pointer;
-    padding-bottom: 10px;
-    padding-left: 20px;
+}
+
+.img-box{
+    width: 90px;
+    float: left;
+}
+
+.img-box img{
+    padding-left: 20%;
 }
 
 #game{
@@ -39,45 +108,65 @@ and open the template in the editor.
     font-size: 17px;
     text-align: center;
     font-family: 'breebold';
+    overflow: hidden;
 }
 
 #game-playBtn{
-    position: absolute;
-    left: 300px;
-    top: 70px;
-    height: 250px;
-    width: 250px;
+    position: relative;
+    left: 270px;
+    bottom: 150px;
+    height: 140px;
+    width: 315px;
     cursor: pointer;
-    z-index: 10000000;
-    background-image:  url('../images/items/others/play.png');
+    z-index: 10000;
+    background-repeat: no-repeat;
 }
 
 #game-notify{
     position: relative;
-    top: -150px;
-    font-size: 5em;
-    z-index: 10;
+    bottom: 100px;
+    z-index: 10000;
     display: none;
+    font-family: "riffic-bold";
+    font-size: 4em;
+    color: #63A70A!important;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
 }
 
 #game-timer{
     position : absolute;
-    left : 85px;
+    left : 50px;
 }
 
 #game-score-parent{
     position : absolute;
     padding-left: 5px;
     padding-top:15px;
+    left: 20px;
+    top: 10px;
+    color: #082e7d;
+    font-family: "riffic-bold";
+    font-size: 25px;
 }
 
 img.superpose, span.superpose{
     position : absolute;   
 }
 
+#separator-game{
+    width: 100%;
+    height: 35px; 
+    background-color: #EDEEF0;
+    position: relative; 
+    z-index: 1000;
+}
+
 #game-lives-parent{
-    position: relative;
+    position: absolute;
     top: 291px;
+    right: 45%;
+    width: 10%
 }
 
 #game-lives{
@@ -90,20 +179,24 @@ img.superpose, span.superpose{
     z-index: 15;
     margin-left: -135px;
     margin-top: -19px;
+    right: 128px;
 }
 #live_2 {
     z-index: 18;
     margin-left: -144px;
     margin-top:-10px;
+    right: 138px;
 }
 #live_3 {
     z-index: 25;
     margin-left: -155px;
+    right: 148px;
 }
 
 #game-list-items{
     position: relative;
     top: 130px;
+    left: 15px;
     height: 255px;
     width: 185px;
     background-image:  url('../images/items/others/list.png');
@@ -111,7 +204,7 @@ img.superpose, span.superpose{
 
 #game-basket{
     right: 50px;
-    top: 262px;   
+    bottom: 40%;
 }
 
 #game-level{
@@ -123,8 +216,7 @@ img.superpose, span.superpose{
 
 .split-list ul{
     float: left;
-    margin-left: 50px;
-    list-style-image: url('../images/items/others/checkmark.png');
+    margin-left: 45px;
 }
 .split-list li{
     line-height: 30px;
@@ -152,13 +244,13 @@ img.shadow{
 }
 
 .pie {
-    width: 76px;
-    height: 76px;
+    width: 86px;
+    height: 86px;
     position: relative;
     border-radius: 50%;
     background-color: #B4D79D;
-    margin-top: 5px;
-    margin-left: 5px;
+    margin-top: 0px;
+    margin-left: 0px;
 }
 .block {
     width: 80px;
@@ -166,8 +258,8 @@ img.shadow{
     display: block;
     border-radius: 50%;
     border: 2px dotted #9B999B;
-    margin-top: -2px;
-    margin-left: -2px;
+    margin-top: 3px;
+    margin-left: 3px;
     position: absolute;
 }
 
@@ -175,8 +267,8 @@ img.shadow{
     font-size: 2.1em;
     position: absolute;
     left: 27%;
-    top: 20%;
-    color: #CDCFD7;
+    top: 35%;
+    color: #A0A0A1;
 }
 
 .degree {
@@ -186,10 +278,10 @@ img.shadow{
 
 .seconds {
     background: #000;
-    height: 50%;
+    height: 42%;
     left: 49%;
     position: absolute;
-    top: 0;
+    top: 4px;
     transform-origin: 50% 100%;
     width: 3%;
     z-index: 8;
@@ -200,14 +292,66 @@ img.shadow{
 
 .minutes {
     background: #000;
-    height: 50%;
+    height: 42%;
     left: 49%;
     position: absolute;
-    top: 0;
+    top: 4px;
     transform-origin: 50% 100%;
     width: 3%;
     z-index: 8;
 }
+
+.lockup-title{
+    margin-top: -28px;
+    transform: rotate(-3deg);
+    font-size: 11px;
+    text-align: center;
+    font-family: "riffic-bold";
+    color: #676768;
+    font-size: 0.68em;
+}
+
+.lockup-title-modal{
+    text-align: center;
+    padding-bottom: 15px;
+    transform: rotate(-3deg);
+    width: 104px;
+    margin-left: 39%;
+    font-family: "riffic-bold";
+    color: #676768;
+}
+
+.lockup-onlyTitle-modal{
+    margin-top: 6px;
+}
+
+.lockup-subtitle-modal{
+
+}
+
+#popup-gameover-title{
+    text-align: center;
+    transform: rotate(-3deg);
+    width: 126px;
+    left: 217px;
+    height: 35px;
+    position: absolute;
+    font-family: "riffic-bold" !important;
+    font-size: 14px;
+    color: #676768;
+}
+
+#popup-gameover-subtitle{
+    font-size: 13px;
+    margin-top: -5px;
+    color:#004E8A;
+    font-size: 12px;
+}
+
+#game-over-separator{
+    margin-top: -53px;
+}
+
 
 @keyframes blink {
     /**
@@ -233,7 +377,7 @@ img.shadow{
     }
 }
 
-.saving span {
+.loading span {
     /**
      * Use the blink animation, which is defined above
      */
@@ -256,7 +400,7 @@ img.shadow{
     animation-fill-mode: both;
 }
 
-.saving span:nth-child(2) {
+.loading span:nth-child(2) {
     /**
      * Starts the animation of the third dot
      * with a delay of .2s, otherwise all dots
@@ -265,11 +409,239 @@ img.shadow{
     animation-delay: .2s;
 }
 
-.saving span:nth-child(3) {
+.loading span:nth-child(3) {
     /**
      * Starts the animation of the third dot
      * with a delay of .4s, otherwise all dots
      * would animate at the same time
      */
     animation-delay: .4s;
+}
+
+/*MODAL*/
+
+
+/* library */
+.dialog-container,
+.loading-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+}
+
+.dialog-container > div {
+    position: relative;
+    width: 560px;
+    height: 100%;
+    margin: 10% auto;
+    z-index: 99999;
+    padding: 143px 50px;
+    background-image:  url('../images/items/others/lockup_store.png') !important;
+    background-repeat: no-repeat!important;
+    background-color: transparent!important;
+}
+
+.lang_fr .dialog-container > div {
+    background-image:  url('../images/items/others/lockup_store_fr.png') !important;
+}
+
+.dialog-button-bar-right {
+    float: left!important;
+    width: 40%!important;
+    padding: 0px 15px 0 45px !important;
+    text-align: center !important;
+}
+
+.dialog-button-bar-left{
+    float: left!important;
+    padding: 0 0 0 20px;
+    width: 47%;
+}
+
+#dialog-choices{
+    margin-top: 40px;
+}
+
+.riffic{
+    font-family: "riffic-bold" !important;
+    color: #004E8A!important;
+}
+
+.breelight{
+    font-family: "breelight" !important;
+    color: #555555!important;
+}
+
+
+.loading-container > div {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 10% auto;
+    z-index: 99999;
+}
+
+.loading-container > div > div {
+    width: 100%;
+    height: 100%;
+}
+
+.bg-game{
+    background-image:  url('../images/items/others/bg.png') !important;
+    background-repeat: no-repeat!important;
+    background-size: 100% 98%;
+}
+
+.bg-game-checkout{
+    background-image:  url('../images/items/others/bg_checkout.png') !important;
+    background-repeat: no-repeat!important;
+    min-height: 350px;
+}
+
+#game-store{
+    width: 100%;
+    z-index:500;
+    margin-top: 62px;
+    text-align: center;
+}
+
+#game-store-text{
+    padding: 10px 0;
+    width: 62%;
+    position: absolute; 
+    top:175px;
+    left:19%;
+    text-align: center;
+    color:#666666;
+    font-size: 13px;
+    font-family: breelight;
+}
+
+
+#game-lockup{
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 15px;
+}
+
+ul#instruction{
+    position: absolute;
+    top: 48%;
+    padding: 2px 0 0 14px;
+    left: 18%;
+    font-family: "breelight";
+    font-size: 0.88em;
+}
+
+#instruction-img-lives{
+    margin-top:20px;
+}
+
+ul#instruction li{
+    width: 460px;
+    list-style: none;
+    padding-bottom: 10px;
+}
+
+ul#instruction li>img{
+    float: left;
+    width: 25px;
+}
+
+.instruction-details{
+    font-size: 0.88em;
+    margin-left: 45px;
+    margin-top: 3px;
+    color: #555555;
+    text-align: left;
+}
+
+#ws-landing #member-reg{
+    margin-top: 0px !important;
+}
+
+.disclaimer{
+    padding-top: 0px!important;
+}
+
+#game-overlay{
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 351px;
+    width: 100%;
+    opacity: 0.6;
+}
+
+#gameover-paper{
+    float: left; 
+    width: 50%;
+    text-align: right;
+    margin-top:38px;
+}
+
+#gameover-paper-content{
+    position: absolute; 
+    top:33%;
+    left:17%;
+    width: 200px; 
+    text-align: center;
+    color:#666666;
+    font-size: 10px;
+}
+
+#gameover-cashier{
+    float: left;
+    width: 50%; 
+    text-align: right; 
+    margin-top:39px;
+}
+
+#gameover-cashier-score{
+    margin-top: -193px;
+    margin-left: 211px;
+    width: 60px;
+    color: #00FFB5;
+    text-align: right;
+}
+
+.winner-list{
+    margin: auto;
+    width: 40%;
+    display: block;
+    text-align: left;
+    list-style-type:none;
+    color: #004E8A;
+    font-size: 1.2em;
+    padding-bottom: 15px;
+    text-transform: capitalize;
+
+}
+
+
+
+/*RESET MATERIAL*/
+p {
+    letter-spacing: 0!important; 
+    margin: 0!important; 
+    font-weight: normal!important; 
+    line-height: normal!important; 
+    color: #666666!important;
+}
+
+.mobile-canvas a {
+    text-decoration: none!important;
 }

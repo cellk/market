@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Websaver game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="jquery-1.10.2.min.js" crossorigin="anonymous"></script>
+    <script src="jquery.cookie.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src='game.js'></script>
+    <link rel="stylesheet" href="game.css" />
+    </head>
+    <body>
+    <div id="contest-wrapper">	
+        <div id="mobile-canvas" class="container">	
+            <div id="ws-landing">           
+                <div class="row">  
+                    <div class="col-xs-12">
+                        <div id="game-lockup">
+                            <img src='{{asset('bundles/bamwebsaver/images/items/others/')}}{{'lockup-image' | trans({}, 'contests_login') | raw}}'/>
+                            <div class="lockup-title">{{'checkout-title' | trans({}, 'contests_login') | raw}}</div>
+                        </div>
+
+                    </div>  
+                    <div class="col-xs-12" style="margin-top: 25%;text-align: center;">
+                        <h3 class="riffic">{{'winners-bestScore' | trans({}, 'contests_login')| raw}}</h3>
+                        <ul class="winner-list">
+                            {% set num = 1 %}
+                            {% for top in topScores %}
+                                <li>
+                                    <span class="riffic" style="font-size: 0.6em;">{{num}}. </span>
+                                    {{ top.fullname }}, 
+                                    <span style="color: #63A70B;font-weight: bold;">{{top.score}} points</span>
+                                </li>
+                                {% set num = num + 1 %}
+                            {% endfor %}
+                        </ul>
+                        {% if winners|length > 0 %}
+                            <h3 class="riffic">{{'winners-weeks' | trans({}, 'contests_login')| raw}}</h3>
+                            <ul class="winner-list">
+
+                                {% for key, winner in winners %}
+                                    <li>
+                                        <span class="riffic" style="font-size: 0.6em;">{{key|replace('_', ' ')}}: </span>
+                                        {{ winner.fullname }}, 
+                                        <span style="color: #63A70B;font-weight: bold;">{{winner.score}} points</span>
+                                    </li>
+                                    {% set num = num + 1 %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+    </div>  
+    </body>
+</html>

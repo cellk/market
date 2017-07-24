@@ -18,58 +18,111 @@ and open the template in the editor.
     </head>
     <body>
     <div id="contest-wrapper">          
-        <div id="canvas" class="content" style="min-height: 500px;">
-
-            <div id='game'>
-                <div id='game-timer'>
-                    <div class='clock'>
-                        <div class="pie degree">
-                            <span class="block"></span>
-                            <span id="time">0</span>
-                            <div class="minutes"></div>
-                            <div class="seconds"></div>
+        <div class="game-wrapper mobile-canvas">
+            <noscript>{{'noscript' | trans({}, 'contests_login')| raw}}</noscript>
+            <div id="game-overlay"> </div>
+            <div class="row" id="game-portrait">
+                <div class="col-xs-12 bg-game">
+                    <div id="game-lockup">
+                        <img src='{{asset('bundles/bamwebsaver/images/items/others/')}}{{'lockup-image' | trans({}, 'contests_login') | raw}}'/>
+                        <div class="lockup-title">{{'lockup-title' | trans({}, 'contests_login')| raw}}</div>
+                    </div>
+                    <div id="game-store" class="reset-line-height">
+                        <img class="flip-phone-img" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/flip_your_phone.png')}}"/>
+                        <img style="height: 300px;margin-top: 16px;width: 100%;" src='{{asset('bundles/bamwebsaver/images/items/others/store.png')}}'/>
+                    </div>
+                    <div class="col-xs-12" style="padding-left: 12px;padding-right: 12px;">
+                        <p class="text-rules-portrait"> {{'bottom_claimer' | trans({'%link_start%' : '<a href="'~path('_contests_official_rules')~'">', '%link_end%' : '</a>'}, 'footer') | raw}}</p>  
+                    </div>
+                </div>
+            </div>
+            <div class="hide-portrait">  
+                <div id='game'>
+                    <img class="audio-btn audio-active" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/audio_on.png')}}"/>
+                    <img class="audio-btn audio-inactive" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/audio_off.png')}}"/>   
+                    <div id='game-timer'>
+                        <div class='clock'>
+                            <div class="pie degree">
+                                <span class="block"></span>
+                                <span id="time"></span>
+                                <div class="minutes"></div>
+                                <div class="seconds"></div>
+                            </div>
                         </div>
                     </div>
+                    <div id='game-score-parent'>
+                        <span id="game-run">{{'contest-game-run' | trans({}, 'contests_login')| raw}}</span>
+                    </div>
+
+                    <div id='game-lives-parent'>
+                        <img id="live_3" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/last_life.png')}}"/>
+                        <img id="live_2" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/second_life.png')}}"/>
+                        <img id="live_1" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/first_life.png')}}"/>
+                        <span id="game-lives" class="superpose">3</span>
+                    </div>
+                    <img id='game-basket' class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/basket.png')}}"/>
+                    <div id="game-list-items">
+                        <div id="game-level">{{'contest-game-level' | trans({}, 'contests_login')| raw}} <span id="game-level-number" style="color: #6FB440;">1</span></div>
+                        <ul class="split-list"></ul>
+                    </div>
+
+                    <div id='game-playBtn' style='background-image: url({{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/')}}{{'contest-game-playBtn' | trans({}, 'contests_login')| raw}})'></div>
+
+                    <div id='game-notify' class="loading"></div>
+                    <div id="shelves">
+                        <div id='shelve1'>
+                            <div id="shelve1-container"></div>
+                        </div>
+                        <div id='shelve2'>
+                            <div id="shelve2-container"></div>
+                        </div>
+                        <div id='shelve3'>
+                            <div id="shelve3-container"></div>
+                        </div>
+                        <div id='shelve4'>
+                            <div id="shelve4-container"></div>
+                        </div>
+                    </div>
+                    <input id='tk' style="display: none"/>
                 </div>
-                <div id='game-score-parent'>
-                    <span style="color: #565456;">Your score</span>
+                <div id="separator-game"></div>
+                <audio id="audio" loop type="audio/mp3" preload="auto" src="contest_bg_audio.mp3"></audio>
+                <audio id="audio_click" type="audio/x-wav" preload="auto" src="barcode_scan_audio.wav"></audio>
+
+                <div class="text-center disclaimer">  
+                    <div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">      
+                        <p style="font-size: 0.9em!important;"> {{'bottom_claimer' | trans({'%link_start%' : '<a  style="color:#428bca" href="'~path('_contests_official_rules')~'">', '%link_end%' : '</a>'}, 'footer') | raw}}</p>                                 
+                    </div>
                     <br/>
-                    <span id="game-score" style="font-size: 35px;">0</span>
-                </div>
-
-                <div id='game-lives-parent'>
-                    <img id="live_3" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/last_life.png')}}"/>
-                    <img id="live_2" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/second_life.png')}}"/>
-                    <img id="live_1" class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/lives/first_life.png')}}"/>
-                    <span id="game-lives" class="superpose">3</span>
-                </div>
-                <div id="game-list-items">
-                    <div id="game-level">Level: <span id="game-level-number" style="color: #6FB440;">1</span></div>
-                    <ul class="split-list"></ul>
-                </div>
-
-                <div id='game-playBtn'></div>
-                <img id='game-basket' class="superpose" src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/bamwebsaver/images/items/others/basket.png')}}"/>
-
-                <span id='game-notify'></span>
-                <div id="shelves">
-                    <div id='shelve1'>
-                        <div id="shelve1-container"></div>
-                    </div>
-                    <div id='shelve2'>
-                        <div id="shelve2-container"></div>
-                    </div>
-                    <div id='shelve3'>
-                        <div id="shelve3-container"></div>
-                    </div>
-                    <div id='shelve4'>
-                        <div id="shelve4-container"></div>
+                    <div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
+                        <a style="color:#428bca" href="{{path("_contests_game_instruction")}}">{{'contest-game-howtoplay' | trans({}, 'contests_login')| raw}}</a>
                     </div>
                 </div>
-                <input id='tk' style="display: none"/>
             </div>
-            <div style="width: 100%;height: 35px; background-color: white;position: relative; z-index: 10000"></div>
+
+
         </div>
+
+        <script src="jquery.assets.js"></script>
+        <script>
+        var langWebsite = "{{ app.request.locale }}";
+        var env = "{{ app.environment }}";
+        
+        $(document).ready(function () {
+            $("#game-playBtn, #fb-share-btn, #tw-share-btn").jrumble({
+                x: 0,
+                y: 0,
+                rotation: 5,
+                speed: 200
+            });
+            $("#game-playBtn, #fb-share-btn, #tw-share-btn").hover(function () {
+                $(this).trigger('startRumble');
+            }, function () {
+                $(this).trigger('stopRumble');
+            });
+        });
+        </script>
+        <script src='g.js?v=2'></script>
     </div>
     </body>
 </html>
